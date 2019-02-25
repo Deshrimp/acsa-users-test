@@ -17,7 +17,7 @@ const usersInformation = usersInfo(sequelize, Sequelize)
 const usersProfile = usersProf(sequelize, Sequelize)
 
 //usersInformation.belongsTo(usersProfile)
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   console.log("Database and tables created")
 })
 
