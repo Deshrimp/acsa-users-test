@@ -1,7 +1,10 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+//FOR LOGIN
 const passport = require("passport")
+//TO ENCRYPT PASSWORD
 const bcrypt = require("bcrypt")
+//VALIDATE PASSWORD MEETS REQUIREMENT
 const passwordValidator = require("password-validator")
 
 const LocalStrategy = require("passport-local").Strategy
@@ -64,7 +67,7 @@ passport.deserializeUser((id, done) => {
 
 app.use(passport.initialize())
 app.use(passport.session())
-
+//ROUTE FOR LOGGING IN
 app.post(
   "/api/login",
   passport.authenticate("local", {
@@ -78,9 +81,10 @@ app.post(
     res.status(200).json({ message: "Authenticated succesfully" })
   }
 )
-
+//ROUTE FOR CREATING A NEW USER
 app.post("/api/users", (req, res) => {
   const { nombre, edad, correo, username, password } = req.body
+  console.log(password)
   if (schema.validate(password)) {
     console.log("Good password")
     const salt = bcrypt.genSaltSync(10)
@@ -88,7 +92,13 @@ app.post("/api/users", (req, res) => {
     usersInformation
       .create({ username, password: hashedPassword })
       .then(user =>
-        usersProfile.create({ userId: user.id, nombre, edad, correo, username })
+        usersProfile.create({
+          userId: user.id,
+          nombre,
+          edad,
+          correo,
+          username
+        })
       )
       .then(userProfile => {
         return res
@@ -101,9 +111,21 @@ app.post("/api/users", (req, res) => {
     )
   }
 })
-
+//ROUTE FOR GETTING USERS
 app.get("/api/users", (req, res) => {
   usersProfile.findAll().then(users => res.json(users))
+})
+
+app.get("/api/users/:id", function(req, res) {
+  usersProfile
+    .findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(function(dbUser) {
+      res.json(dbUser)
+    })
 })
 const PORT = 3000
 app.listen(PORT, () => {

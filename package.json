@@ -11,5 +11,8 @@
     "passport-local": "^1.0.0",
     "password-validator": "^4.1.1",
     "sequelize": "^4.42.0"
+  },
+  "scripts": {
+    "start": "nodemon consult.js && wait-on http://localhost:3000/api/alive && nodemon inquirer.js"
   }
 }
