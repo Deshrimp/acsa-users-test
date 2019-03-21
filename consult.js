@@ -127,6 +127,45 @@ app.get("/api/users/:id", function(req, res) {
       res.json(dbUser)
     })
 })
+//ROUTE FOR DELETING USERS
+app.delete("/api/users/:id", function(req, res) {
+  usersProfile
+    .destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(
+      usersInformation
+        .destroy({
+          where: {
+            id: req.params.id
+          }
+        })
+        .then(function(dbPost) {
+          res.json(dbPost)
+        })
+    )
+})
+//ROUTE FOR UPDATING USERS
+app.put("/api/users", function(req, res) {
+  usersProfile
+    .update(
+      {
+        nombre: req.body.nombre,
+        edad: req.body.edad,
+        correo: req.body.correo
+      },
+      {
+        where: {
+          id: req.body.id
+        }
+      }
+    )
+    .then(function(user) {
+      res.json(user)
+    })
+})
 const PORT = 3000
 app.listen(PORT, () => {
   console.log("Running on port " + PORT)
