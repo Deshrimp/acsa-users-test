@@ -28,4 +28,4 @@ VALUES("Arcsa", 1, "admin", "arcsa@gmail.com", "admin", "2019-02-25 05:54:12", "
 SELECT * from usersInfos;
 -- SELECT * from userProfiles
 -- "username": "adminn",
--- "password": "Abc123456-"
+-- "password": "Abc456789-"

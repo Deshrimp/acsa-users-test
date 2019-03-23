@@ -36,12 +36,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 passport.use(
-  new LocalStrategy((username, password, done) => {
+  new LocalStrategy((name, password, done) => {
     usersInformation
-      .findOne({ where: { username: username } })
+      .findOne({ where: { name: name } })
       .then(user => {
         if (!user) {
-          return done(null, false, { message: "Incorrect username!" })
+          return done(null, false, { message: "Incorrect name!" })
         }
         if (!validPassword(password, user.password)) {
           return done(null, false, { message: "Incorrect password!" })
@@ -67,6 +67,8 @@ passport.deserializeUser((id, done) => {
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+//TODO: NOT working
 //ROUTE FOR LOGGING IN
 app.post(
   "/api/login",
@@ -77,33 +79,32 @@ app.post(
   }),
   (req, res) => {
     console.log("The authenticated user is: ")
-    console.log(req.user.username)
+    console.log(req.user.name)
     res.status(200).json({ message: "Authenticated succesfully" })
   }
 )
 //ROUTE FOR CREATING A NEW USER
 app.post("/api/users", (req, res) => {
-  const { nombre, edad, correo, username, password } = req.body
+  const { name, age, gender, password } = req.body
   console.log(password)
   if (schema.validate(password)) {
     console.log("Good password")
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt)
     usersInformation
-      .create({ username, password: hashedPassword })
+      .create({ name, password: hashedPassword })
       .then(user =>
         usersProfile.create({
           userId: user.id,
-          nombre,
-          edad,
-          correo,
-          username
+          name,
+          age,
+          gender
         })
       )
       .then(userProfile => {
         return res
           .status(200)
-          .json({ message: `User ${userProfile.correo} created succesfully` })
+          .json({ message: `User ${userProfile.name} created succesfully` })
       })
   } else {
     console.log(
@@ -115,7 +116,7 @@ app.post("/api/users", (req, res) => {
 app.get("/api/users", (req, res) => {
   usersProfile.findAll().then(users => res.json(users))
 })
-
+//ROUTE FOR GETTING A USER
 app.get("/api/users/:id", function(req, res) {
   usersProfile
     .findOne({
@@ -127,6 +128,7 @@ app.get("/api/users/:id", function(req, res) {
       res.json(dbUser)
     })
 })
+
 //ROUTE FOR DELETING USERS
 app.delete("/api/users/:id", function(req, res) {
   usersProfile
@@ -152,15 +154,27 @@ app.put("/api/users", function(req, res) {
   usersProfile
     .update(
       {
-        nombre: req.body.nombre,
-        edad: req.body.edad,
-        correo: req.body.correo
+        name: req.body.name,
+        age: req.body.age,
+        gender: req.body.gender
       },
       {
         where: {
           id: req.body.id
         }
       }
+    )
+    .then(
+      usersInformation.update(
+        {
+          name: req.body.name
+        },
+        {
+          where: {
+            id: req.body.id
+          }
+        }
+      )
     )
     .then(function(user) {
       res.json(user)
