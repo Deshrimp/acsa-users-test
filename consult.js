@@ -36,20 +36,24 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 passport.use(
-  new LocalStrategy((name, password, done) => {
-    usersInformation
-      .findOne({ where: { name: name } })
-      .then(user => {
-        if (!user) {
-          return done(null, false, { message: "Incorrect name!" })
-        }
-        if (!validPassword(password, user.password)) {
-          return done(null, false, { message: "Incorrect password!" })
-        }
-        return done(null, user)
-      })
-      .catch(err => done(err))
-  })
+  new LocalStrategy(
+    { usernameField: "name", passwordField: "password" },
+    (name, password, done) => {
+      console.log(name, password)
+      usersInformation
+        .findOne({ where: { name: name } })
+        .then(user => {
+          if (!user) {
+            return done(null, false, { message: "Incorrect name!" })
+          }
+          if (!validPassword(password, user.password)) {
+            return done(null, false, { message: "Incorrect password!" })
+          }
+          return done(null, user)
+        })
+        .catch(err => done(err))
+    }
+  )
 )
 
 passport.serializeUser((user, done) => {
@@ -68,14 +72,13 @@ passport.deserializeUser((id, done) => {
 app.use(passport.initialize())
 app.use(passport.session())
 
-//TODO: NOT working
 //ROUTE FOR LOGGING IN
 app.post(
   "/api/login",
   passport.authenticate("local", {
     successRedirect: "/api/users",
     failureRedirect: "/api/login",
-    failureFlash: true
+    failureFlash: false
   }),
   (req, res) => {
     console.log("The authenticated user is: ")
