@@ -1,3 +1,62 @@
-<p>
-  user works!
-</p>
+<h3>Usuario <small>nombre...</small></h3>
+<hr />
+<div class="row animated fadeIn fast">
+  <div class="col-md-12">
+    <form (ngSubmit)="guardar()" #forma="ngForm">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input
+          [(ngModel)]="user.name"
+          name="name"
+          type="text"
+          name=""
+          class="form-control"
+          placeholder="Nombre"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label>Genero</label>
+        <select
+          [(ngModel)]="user.gender"
+          name="gender"
+          class="form-control"
+          name=""
+        >
+          <option value="M">Hombre</option>
+          <option value="F">Mujer</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Edad</label>
+        <br />
+        <input
+          [(ngModel)]="user.age"
+          name="age"
+          type="number"
+          name="quantity"
+          min="10"
+          max="90"
+        />
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <button
+              [disabled]="!forma.valid"
+              type="submit"
+              class="btn btn-outline-primary"
+            >
+              Guardar
+            </button>
+          </div>
+          <div class="col-6">
+            <button [routerLink]="['/users']" class="btn btn-outline-danger">
+              Regresar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
