@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core"
 import { NgForm, FormsModule } from "@angular/forms"
 import { Router, ActivatedRoute } from "@angular/router"
+import { UsersService } from "../../services/users.service"
 import { User } from "../../interfaces/user.interface"
 
 @Component({
@@ -18,11 +19,12 @@ export class UserComponent implements OnInit {
     role: "",
     id: 0
   }
-  constructor() {}
+  constructor(private _UsersService: UsersService) {}
 
   ngOnInit() {}
 
   guardar() {
     console.log(this.user)
+    this._UsersService.newUser(this.user).subscribe(data => {})
   }
 }

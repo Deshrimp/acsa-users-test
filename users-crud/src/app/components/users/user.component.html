@@ -9,7 +9,6 @@
           [(ngModel)]="user.name"
           name="name"
           type="text"
-          name=""
           class="form-control"
           placeholder="Nombre"
           required
@@ -17,12 +16,7 @@
       </div>
       <div class="form-group">
         <label>Genero</label>
-        <select
-          [(ngModel)]="user.gender"
-          name="gender"
-          class="form-control"
-          name=""
-        >
+        <select [(ngModel)]="user.gender" name="gender" class="form-control">
           <option value="M">Hombre</option>
           <option value="F">Mujer</option>
         </select>
@@ -34,7 +28,6 @@
           [(ngModel)]="user.age"
           name="age"
           type="number"
-          name="quantity"
           min="10"
           max="90"
         />

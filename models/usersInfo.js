@@ -2,11 +2,12 @@ module.exports = (sequelize, type) => {
   return sequelize.define("usersInfo", {
     name: {
       type: type.STRING,
-      allowNull: false
+      allowNull: true,
+      defaultValue: "thisIsADefault"
     },
     password: {
       type: type.STRING,
-      allowNull: false
+      defaultValue: "thisIsADefault"
     },
     last_login: {
       type: type.DATE
