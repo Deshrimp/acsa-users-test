@@ -88,45 +88,32 @@ app.post(
 )
 //ROUTE FOR CREATING A NEW USER
 app.post("/api/users", (req, res) => {
-  console.log(req.body)
-  const { name, age, gender } = req.body.user
-  usersProfile
-    .create({
-      name,
-      age,
-      gender
-    })
-    .then(userProfile => {
-      return res
-        .status(200)
-        .json({ message: `User ${userProfile.name} created succesfully` })
-    })
-  // const { name, age, gender, password } = req.body
-  // console.log(password)
-  // if (schema.validate(password)) {
-  //   console.log("Good password")
-  //   const salt = bcrypt.genSaltSync(10)
-  //   const hashedPassword = bcrypt.hashSync(password, salt)
-  //   usersInformation
-  //     .create({ name, password: hashedPassword })
-  //     .then(user =>
-  //       usersProfile.create({
-  //         userId: user.id,
-  //         name,
-  //         age,
-  //         gender
-  //       })
-  //     )
-  //     .then(userProfile => {
-  //       return res
-  //         .status(200)
-  //         .json({ message: `User ${userProfile.name} created succesfully` })
-  //     })
-  // } else {
-  //   console.log(
-  //     "Password must contain lower case, upper case, numers and symbols. Must be at least 10 characters long"
-  //   )
-  // }
+  const { name, age, gender, password } = req.body.user
+  console.log(password)
+  if (schema.validate(password)) {
+    console.log("Good password")
+    const salt = bcrypt.genSaltSync(10)
+    const hashedPassword = bcrypt.hashSync(password, salt)
+    usersInformation
+      .create({ name, password: hashedPassword })
+      .then(user =>
+        usersProfile.create({
+          userId: user.id,
+          name,
+          age,
+          gender
+        })
+      )
+      .then(userProfile => {
+        return res
+          .status(200)
+          .json({ message: `User ${userProfile.name} created succesfully` })
+      })
+  } else {
+    console.log(
+      "Password must contain lower case, upper case, numers and symbols. Must be at least 10 characters long"
+    )
+  }
 })
 //ROUTE FOR GETTING USERS
 app.get("/api/users", (req, res) => {
