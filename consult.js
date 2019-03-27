@@ -105,9 +105,7 @@ app.post("/api/users", (req, res) => {
         })
       )
       .then(userProfile => {
-        return res
-          .status(200)
-          .json({ message: `User ${userProfile.name} created succesfully` })
+        return res.status(200).json({ userProfile })
       })
   } else {
     console.log(
@@ -157,24 +155,24 @@ app.put("/api/users", function(req, res) {
   usersProfile
     .update(
       {
-        name: req.body.name,
-        age: req.body.age,
-        gender: req.body.gender
+        name: req.body.user.name,
+        age: req.body.user.age,
+        gender: req.body.user.gender
       },
       {
         where: {
-          id: req.body.id
+          id: req.body.user.id
         }
       }
     )
     .then(
       usersInformation.update(
         {
-          name: req.body.name
+          name: req.body.user.name
         },
         {
           where: {
-            id: req.body.id
+            id: req.body.user.id
           }
         }
       )

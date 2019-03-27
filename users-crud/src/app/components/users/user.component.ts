@@ -19,12 +19,36 @@ export class UserComponent implements OnInit {
     role: "",
     id: 0
   }
-  constructor(private _UsersService: UsersService) {}
+  new: boolean = false
+  id: string
+  constructor(
+    private _UsersService: UsersService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(parametros => {
+      console.log(parametros)
+      this.id = parametros["id"]
+    })
+  }
 
   ngOnInit() {}
 
   guardar() {
-    console.log(this.user)
-    this._UsersService.newUser(this.user).subscribe(data => {})
+    if (this.id == "nuevo") {
+      this._UsersService.newUser(this.user).subscribe(
+        (data: { userProfile: User }) => {
+          this.router.navigate(["/user", data.userProfile.id])
+        },
+        error => console.error(error)
+      )
+    } else {
+      this._UsersService.updateUser(this.user, this.id).subscribe(
+        (data: { userProfile: User }) => {
+          console.log("this is the data that I'm sending", data)
+        },
+        error => console.error(error)
+      )
+    }
   }
 }

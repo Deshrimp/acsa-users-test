@@ -10,6 +10,7 @@ export class UsersService {
   usersPostURL: string = "/api/users"
 
   constructor(private http: HttpClient) {}
+
   newUser(user: User) {
     let body = { user }
     let headers = {
@@ -18,6 +19,18 @@ export class UsersService {
     return this.http.post(this.usersPostURL, body, { headers }).pipe(
       map(res => {
         console.log(res)
+        return res
+      })
+    )
+  }
+  updateUser(user: User, id: string) {
+    let body = { user: { ...user, id } }
+    let headers = {
+      "Content-Type": "application/json"
+    }
+    return this.http.put(this.usersPostURL, body, { headers }).pipe(
+      map(res => {
+        console.log("this comes from update user method", res)
         return res
       })
     )
