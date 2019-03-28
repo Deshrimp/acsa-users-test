@@ -24,15 +24,32 @@
             <th scope="col">Genero</th>
             <th scope="col">Edad</th>
             <th scope="col">Rol</th>
+            <th scope="col">Opciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let id of (users | ids); let i = index">
+          <tr *ngFor="let number of (users | ids); let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ users[id].name }}</td>
-            <td>{{ users[id].gender }}</td>
-            <td>{{ users[id].age }}</td>
-            <td>{{ users[id].role }}</td>
+            <td>{{ users[number].name }}</td>
+            <td>{{ users[number].gender }}</td>
+            <td>{{ users[number].age }}</td>
+            <td>{{ users[number].role }}</td>
+            <td>
+              <button
+                [routerLink]="['/user', users[number].id]"
+                type="button"
+                class="btn btn-outline-primary"
+              >
+                Editar
+              </button>
+              <button
+                (click)="deleteUser(users[number].id)"
+                type="button"
+                class="btn btn-outline-danger"
+              >
+                Eliminar
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

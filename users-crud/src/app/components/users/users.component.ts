@@ -16,4 +16,21 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {}
+  deleteUser(id: string) {
+    this._UsersService.deleteUser(id).subscribe(res => {
+      const indexOfId = this.users.findIndex((user: User) =>
+        user.id === parseInt(id, 10) ? true : false
+      )
+      if (indexOfId === -1) {
+        console.log(
+          "No matching id found, state out of sync (shouldn't happen)"
+        )
+      }
+      this.users = [
+        ...this.users.slice(0, indexOfId),
+        ...this.users.slice(indexOfId + 1, this.users.length)
+      ]
+      //this.users.splice(indexOfId, 1)
+    })
+  }
 }

@@ -35,10 +35,14 @@ export class UsersService {
   }
 
   getUser(key: string) {
-    let url = `${this.usersURL}/${key}.json`
+    let url = `${this.usersURL}/${key}`
     return this.http.get(url).pipe(map(res => res))
   }
   getUsers() {
     return this.http.get(this.usersURL).pipe(map(res => res))
+  }
+  deleteUser(key: string) {
+    let url = `${this.usersURL}/${key}`
+    return this.http.delete(url).pipe(map(res => res))
   }
 }
