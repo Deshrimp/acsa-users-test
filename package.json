@@ -1,18 +1,20 @@
 {
-  "dependencies": {
-    "bcrypt": "^3.0.4",
-    "body-parser": "^1.18.3",
-    "dotenv": "^6.2.0",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
-    "inquirer": "^6.2.2",
-    "mysql2": "^1.6.5",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "password-validator": "^4.1.1",
-    "sequelize": "^4.42.0"
-  },
-  "scripts": {
-    "start": "nodemon consult.js && wait-on http://localhost:3000/api/alive && nodemon inquirer.js"
-  }
+	"dependencies": {
+		"bcrypt": "^3.0.4",
+		"body-parser": "^1.18.3",
+		"dotenv": "^6.2.0",
+		"express": "^4.16.4",
+		"express-session": "^1.15.6",
+		"inquirer": "^6.2.2",
+		"mysql2": "^1.6.5",
+		"passport": "^0.4.0",
+		"passport-local": "^1.0.0",
+		"password-validator": "^4.1.1",
+		"sequelize": "^4.42.0"
+	},
+	"scripts": {
+		"start": "node consult.js && wait-on http://localhost:3000/api/alive && nodemon inquirer.js",
+		"dev": "DEBUG=prueba-sequelize:* nodemon consults",
+		"debug": ""
+	}
 }
