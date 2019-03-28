@@ -18,7 +18,6 @@ export class UsersService {
     }
     return this.http.post(this.usersURL, body, { headers }).pipe(
       map(res => {
-        console.log(res)
         return res
       })
     )
@@ -30,7 +29,6 @@ export class UsersService {
     }
     return this.http.put(this.usersURL, body, { headers }).pipe(
       map(res => {
-        console.log("this comes from update user method", res)
         return res
       })
     )
@@ -39,5 +37,8 @@ export class UsersService {
   getUser(key: string) {
     let url = `${this.usersURL}/${key}.json`
     return this.http.get(url).pipe(map(res => res))
+  }
+  getUsers() {
+    return this.http.get(this.usersURL).pipe(map(res => res))
   }
 }

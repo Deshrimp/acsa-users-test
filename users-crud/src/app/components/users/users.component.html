@@ -23,14 +23,16 @@
             <th scope="col">Nombre</th>
             <th scope="col">Genero</th>
             <th scope="col">Edad</th>
+            <th scope="col">Rol</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let id of (users | ids); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ users[id].name }}</td>
+            <td>{{ users[id].gender }}</td>
+            <td>{{ users[id].age }}</td>
+            <td>{{ users[id].role }}</td>
           </tr>
         </tbody>
       </table>

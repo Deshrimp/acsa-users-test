@@ -6,9 +6,10 @@ import { AppComponent } from "./app.component"
 import { UsersComponent } from "./components/users/users.component"
 import { UserComponent } from "./components/users/user.component"
 import { FormsModule } from "@angular/forms"
-import { UsersService } from "./services/users.service"
+import { UsersService } from "./services/users.service";
+import { IdsPipe } from './pipes/ids.pipe'
 @NgModule({
-  declarations: [AppComponent, UsersComponent, UserComponent],
+  declarations: [AppComponent, UsersComponent, UserComponent, IdsPipe],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [UsersService],
   bootstrap: [AppComponent]
