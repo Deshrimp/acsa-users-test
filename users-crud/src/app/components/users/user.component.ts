@@ -29,6 +29,11 @@ export class UserComponent implements OnInit {
     this.route.params.subscribe(parametros => {
       console.log(parametros)
       this.id = parametros["id"]
+      if (this.id != "nuevo") {
+        this._UsersService
+          .getUser(this.id)
+          .subscribe((user: User) => (this.user = user))
+      }
     })
   }
 
@@ -50,5 +55,11 @@ export class UserComponent implements OnInit {
         error => console.error(error)
       )
     }
+  }
+  addNew(forma: NgForm) {
+    this.router.navigate(["/user", "nuevo"])
+    forma.reset({
+      age: 40
+    })
   }
 }

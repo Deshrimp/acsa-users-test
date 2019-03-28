@@ -7,7 +7,7 @@ import { map } from "rxjs/operators"
   providedIn: "root"
 })
 export class UsersService {
-  usersPostURL: string = "/api/users"
+  usersURL: string = "/api/users"
 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +16,7 @@ export class UsersService {
     let headers = {
       "Content-Type": "application/json"
     }
-    return this.http.post(this.usersPostURL, body, { headers }).pipe(
+    return this.http.post(this.usersURL, body, { headers }).pipe(
       map(res => {
         console.log(res)
         return res
@@ -28,11 +28,16 @@ export class UsersService {
     let headers = {
       "Content-Type": "application/json"
     }
-    return this.http.put(this.usersPostURL, body, { headers }).pipe(
+    return this.http.put(this.usersURL, body, { headers }).pipe(
       map(res => {
         console.log("this comes from update user method", res)
         return res
       })
     )
+  }
+
+  getUser(key: string) {
+    let url = `${this.usersURL}/${key}.json`
+    return this.http.get(url).pipe(map(res => res))
   }
 }
