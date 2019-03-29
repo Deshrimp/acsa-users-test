@@ -1,18 +1,17 @@
-<h3>Usuario <small>nombre...</small></h3>
+<h3>
+  Usuario <small>{{ user.name }}</small>
+</h3>
 <hr />
 <div class="row animated fadeIn fast">
   <div class="col-md-12">
-    <form (ngSubmit)="guardar()" #forma="ngForm">
+    <form novalidate="" (ngSubmit)="guardar()" #forma="ngForm">
       <div class="form-group">
         <label>Nombre</label>
-        <input
-          [(ngModel)]="user.name"
-          name="name"
-          type="text"
-          class="form-control"
-          placeholder="Nombre"
-          required
-        />
+        <input [(ngModel)]="user.name" name="name" type="text" class="form-control" placeholder="Nombre" required minlength="5" maxlength="50" pattern="^[a-zA-Z]*$" #name="ngModel" />
+        <div *ngIf="name.errors?.required" class="form-control-feedback">
+          Este campo es requerido.
+        </div>
+        <div *ngIf="name.errors?.minlength" class="form-control-feedback">Por lo menos {{ nombre.errors.minlength.requiredLength }} caracteres.</div>
       </div>
       <div class="form-group">
         <label>Genero</label>
@@ -24,27 +23,17 @@
       <div class="form-group">
         <label>Edad</label>
         <br />
-        <input
-          [(ngModel)]="user.age"
-          name="age"
-          type="number"
-          min="10"
-          max="90"
-        />
+        <input [(ngModel)]="user.age" name="age" type="number" min="10" max="90" />
       </div>
       <div class="form-group">
         <label>Contraseña</label>
         <br />
-        <input [(ngModel)]="user.password" name="password" type="text" />
+        <input [(ngModel)]="user.password" name="password" type="text" required />
       </div>
       <div class="form-group">
         <div class="row">
           <div class="col-6">
-            <button
-              [disabled]="!forma.valid"
-              type="submit"
-              class="btn btn-outline-primary"
-            >
+            <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
               Guardar
             </button>
           </div>
@@ -52,11 +41,7 @@
             <button [routerLink]="['/users']" class="btn btn-outline-danger">
               Regresar
             </button>
-            <button
-              (click)="addNew(forma)"
-              type="button"
-              class="btn btn-outline-success"
-            >
+            <button (click)="addNew(forma)" type="button" class="btn btn-outline-success">
               New User
             </button>
           </div>

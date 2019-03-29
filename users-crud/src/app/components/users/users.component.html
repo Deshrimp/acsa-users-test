@@ -2,12 +2,7 @@
 <hr />
 <div class="row">
   <div class="col-md-12 text-right">
-    <button
-      [routerLink]="['/user', 'nuevo']"
-      class="btn btn-outline-primary"
-      type="button"
-      name="button"
-    >
+    <button [routerLink]="['/user', 'nuevo']" class="btn btn-outline-primary" type="button" name="button">
       Nuevo
     </button>
   </div>
@@ -35,24 +30,18 @@
             <td>{{ users[number].age }}</td>
             <td>{{ users[number].role }}</td>
             <td>
-              <button
-                [routerLink]="['/user', users[number].id]"
-                type="button"
-                class="btn btn-outline-primary"
-              >
+              <button [routerLink]="['/user', users[number].id]" type="button" class="btn btn-outline-primary">
                 Editar
               </button>
-              <button
-                (click)="deleteUser(users[number].id)"
-                type="button"
-                class="btn btn-outline-danger"
-              >
+              <button (click)="deleteUser(users[number].id)" type="button" class="btn btn-outline-danger">
                 Eliminar
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+      <div *ngIf="(users | ids).length == 0 && !loading" class="alert alert-info" role="alert"><strong>No hay</strong> registros que mostrar</div>
+      <div *ngIf="loading" class="alert alert-warning" role="alert"><strong>Cargando</strong>Por favor espere</div>
     </div>
   </div>
 </div>
