@@ -18,7 +18,7 @@ import { User } from '../../interfaces/user.interface';
 export class UserComponent implements OnInit {
   user: User = {
     name: '',
-    age: 0,
+    age: '',
     gender: '',
     password: '',
     code: '',
@@ -39,7 +39,12 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {}
 
-  guardar() {
+  guardar(forma:NgForm) {
+
+  console.log("ngForm ",forma );
+  console.log("Valor forma", forma.value  );
+
+  console.log("Usuario", this.usuario );
     if (this.id == 'nuevo') {
       this._UsersService.newUser(this.user).subscribe(
         (data: { userProfile: User }) => {
@@ -58,8 +63,6 @@ export class UserComponent implements OnInit {
   }
   addNew(forma: NgForm) {
     this.router.navigate(['/user', 'nuevo']);
-    forma.reset({
-      age: 40
-    });
+    forma.reset();
   }
 }
